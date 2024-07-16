@@ -3,6 +3,9 @@ using TimeClock.Services;
 using System.Threading;
 using TimeClock.DAL;
 using System.Configuration;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 
 namespace TimeClock
 {
@@ -18,7 +21,7 @@ namespace TimeClock
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             //var res = DbContext.MakeQuery("select * from dbo.Employees");
-            NavigationService navigationService = new NavigationService();
+            NavigationService.ShowForm(FormsEnum.LOGIN_FORM);
             Application.Run();
         }
 

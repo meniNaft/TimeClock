@@ -52,7 +52,6 @@
             textBox_tz.Name = "textBox_tz";
             textBox_tz.Size = new Size(170, 27);
             textBox_tz.TabIndex = 1;
-            textBox_tz.Text = "s";
             // 
             // textBox_password
             // 
@@ -60,7 +59,6 @@
             textBox_password.Name = "textBox_password";
             textBox_password.Size = new Size(170, 27);
             textBox_password.TabIndex = 3;
-            textBox_password.BorderStyle = BorderStyle.Fixed3D;
             // 
             // label_password
             // 
@@ -81,7 +79,7 @@
             button_login.TabIndex = 4;
             button_login.Text = "כניסה";
             button_login.UseVisualStyleBackColor = true;
-            button_login.Click += button_login_Click;
+            button_login.Click += Button_login_Click;
             // 
             // button_changePassword
             // 
@@ -92,7 +90,7 @@
             button_changePassword.TabIndex = 5;
             button_changePassword.Text = "החלפת סיסמא";
             button_changePassword.UseVisualStyleBackColor = true;
-            button_changePassword.Click += button_changePassword_Click;
+            button_changePassword.Click += Button_changePassword_Click;
             // 
             // LoginForm
             // 

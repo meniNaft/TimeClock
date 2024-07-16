@@ -58,7 +58,6 @@
             label_tzValue.Name = "label_tzValue";
             label_tzValue.Size = new Size(182, 46);
             label_tzValue.TabIndex = 1;
-            label_tzValue.Text = "314445554";
             // 
             // label_lastEnterDateValue
             // 
@@ -69,7 +68,7 @@
             label_lastEnterDateValue.Name = "label_lastEnterDateValue";
             label_lastEnterDateValue.Size = new Size(94, 28);
             label_lastEnterDateValue.TabIndex = 3;
-            label_lastEnterDateValue.Text = "23/05/24";
+            label_lastEnterDateValue.RightToLeft = RightToLeft.No;
             // 
             // label_lastEnterDate
             // 
@@ -90,7 +89,7 @@
             label_lastExitDateValue.Name = "label_lastExitDateValue";
             label_lastExitDateValue.Size = new Size(94, 28);
             label_lastExitDateValue.TabIndex = 5;
-            label_lastExitDateValue.Text = "23/05/24";
+            label_lastExitDateValue.RightToLeft = RightToLeft.No;
             // 
             // label_lastExitDate
             // 
@@ -112,7 +111,7 @@
             linkLabel_cancel.TabIndex = 6;
             linkLabel_cancel.TabStop = true;
             linkLabel_cancel.Text = "ביטול";
-            linkLabel_cancel.LinkClicked += linkLabel_cancel_LinkClicked;
+            linkLabel_cancel.LinkClicked += LinkLabel_cancel_LinkClicked;
             // 
             // button_enter
             // 
@@ -124,7 +123,7 @@
             button_enter.TabIndex = 7;
             button_enter.Text = "כניסה";
             button_enter.UseVisualStyleBackColor = false;
-            button_enter.Click += button_enter_Click;
+            button_enter.Click += Button_enter_Click;
             // 
             // button_exit
             // 
@@ -136,7 +135,7 @@
             button_exit.TabIndex = 8;
             button_exit.Text = "יציאה";
             button_exit.UseVisualStyleBackColor = false;
-            button_exit.Click += button_exit_Click;
+            button_exit.Click += Button_exit_Click;
             // 
             // ClockForm
             // 

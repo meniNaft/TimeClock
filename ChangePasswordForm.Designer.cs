@@ -124,7 +124,7 @@
             button_changePassword.TabIndex = 8;
             button_changePassword.Text = "ביצוע החלפת סיסמא";
             button_changePassword.UseVisualStyleBackColor = false;
-            button_changePassword.Click += button_changePassword_Click;
+            button_changePassword.Click += Button_changePassword_Click;
             // 
             // linkLabel_cancel
             // 
@@ -136,7 +136,7 @@
             linkLabel_cancel.TabIndex = 9;
             linkLabel_cancel.TabStop = true;
             linkLabel_cancel.Text = "ביטול";
-            linkLabel_cancel.LinkClicked += linkLabel_cancel_LinkClicked;
+            linkLabel_cancel.LinkClicked += LinkLabel_cancel_LinkClicked;
             // 
             // ChangePasswordForm
             // 

@@ -1,43 +1,71 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TimeClock.Models;
 
 namespace TimeClock.DAL
 {
     static internal class DbContext
     {
-        static  private readonly string connectionString = "Data Source=DESKTOP-DQ310PT;Initial Catalog=company1;User id=sa;Password=1234;";
-
-        private static void GetConnectionStrings()
+        static readonly string? connString;
+        static DbContext()
         {
-
+           IConfiguration builder = new ConfigurationBuilder()
+          .AddJsonFile("secrets.json", optional: true)
+          .Build();
+          connString = builder["ConnectionString"];
         }
-        static  public DataTable MakeQuery(string query) {
-            string S = GetConnectionStrings();
-            DataTable outPut = new DataTable();
-            using (SqlConnection conn = new SqlConnection()) {
-                using (SqlCommand cmd = new SqlCommand(query, conn)) {
-                    try
-                    {
-                        conn.Open();
-                        using(SqlDataAdapter adapter  = new SqlDataAdapter(cmd))
-                        {
-                            adapter.Fill(outPut);
-                            Console.WriteLine();
-                        }
+        static  public DataTable MakeQuery(string query, List<SqlParameter>? sqlParams = null) {
+            DataTable outPut = new();
+            using (SqlConnection conn = new(connString)) {
+                try
+                {
+                    conn.Open();
+                    using SqlCommand cmd = new(query, conn);
+                    if (sqlParams != null) {
+                        cmd.Parameters.AddRange([.. sqlParams]);
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
+                    using SqlDataAdapter adapter = new(cmd);
+                    adapter.Fill(outPut);
+                    Console.WriteLine();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
                 }
             }
             return outPut;
+        }
+
+        static public bool MakeTransactionQuery(List<TransactionObject> transactionObjects)
+        {
+            using SqlConnection conn = new(connString);
+            conn.Open();
+            SqlTransaction transaction = conn.BeginTransaction();
+            try
+            {
+                foreach (var obj in transactionObjects)
+                {
+                    SqlCommand cmd = new(obj.Query, conn, transaction);
+                    if (obj.SqlParams != null)
+                    {
+                        cmd.Parameters.AddRange(obj.SqlParams);
+                    }
+                    if (cmd.ExecuteNonQuery() == 0)
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+                transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                transaction.Rollback();
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -26,4 +26,10 @@
     <None Include="C:\Users\משתמש\Desktop\idf_course\TimeClock\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="secrets.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

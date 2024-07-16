@@ -14,36 +14,45 @@ namespace TimeClock
 {
     public partial class ChangePasswordForm : Form
     {
-        private NavigationService Service;
-        public ChangePasswordForm(NavigationService service)
+        public ChangePasswordForm()
         {
-            Service = service;
             InitializeComponent();
         }
 
-        private void button_changePassword_Click(object sender, EventArgs e)
+        private void Button_changePassword_Click(object sender, EventArgs e)
         {
-            bool success = ManagerService.ChangePassword(textBox_tz.Text, textBox_oldPassword.Text, textBox_newPassword.Text);
-            if (success)
+            SqlResultOption res = ManagerService.ChangePassword(textBox_tz.Text, textBox_oldPassword.Text, textBox_newPassword.Text);
+            if (res == SqlResultOption.SUCCESS)
             {
-                Service.ShowForm(FormsEnum.CLOCK_FORM);
+                NavigationService.ShowForm(FormsEnum.CLOCK_FORM);
             }
-            else
+            else if(res == SqlResultOption.NO_USER_FOUND)
             {
                 MessageBox.Show("user not found");
             }
+            else
+            {
+                MessageBox.Show("something went wrong");
+            }
         }
 
-        private void linkLabel_cancel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel_cancel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Service.ShowForm(FormsEnum.LOGIN_FORM);
+            NavigationService.ShowForm(FormsEnum.LOGIN_FORM);
         }
 
         private void ChangePasswordForm_Load(object sender, EventArgs e)
         {
-          
+
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e) => Application.Exit();
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            if (!NavigationService.isNavigate)
+            {
+                Application.Exit();
+            }
+        }
     }
 }

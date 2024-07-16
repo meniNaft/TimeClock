@@ -8,25 +8,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TimeClock.DAL;
 using TimeClock.Services;
 
 namespace TimeClock
 {
     public partial class LoginForm : Form//ReaLTaiizor.Forms.MaterialForm
     {
-        private NavigationService Service;
-        public LoginForm(NavigationService service)
+        public LoginForm()
         {
             InitializeComponent();
-            Service = service;
         }
 
-        private void button_login_Click(object sender, EventArgs e)
+        private void Button_login_Click(object sender, EventArgs e)
         {
-            bool isExist = ManagerService.Login(textBox_tz.Text, textBox_password.Text);
-            if (isExist)
+            var res = ManagerService.Login(textBox_tz.Text, textBox_password.Text);
+            if (res.Rows.Count > 0)
             {
-                Service.ShowForm(Models.FormsEnum.CLOCK_FORM);
+                var elem = res.Rows[0];
+                if ((DateTime)elem["ExpiryDate"] < DateTime.Now)
+                {
+                    MessageBox.Show("your password is expire\nplease change your password");
+                }
+                else
+                {
+                    NavigationService.ShowForm(Models.FormsEnum.CLOCK_FORM);
+                }
             }
             else
             {
@@ -34,11 +41,18 @@ namespace TimeClock
             }
         }
 
-        private void button_changePassword_Click(object sender, EventArgs e)
+        private void Button_changePassword_Click(object sender, EventArgs e)
         {
-            Service.ShowForm(Models.FormsEnum.CHANGE_PASSWORD_FORM);
+            NavigationService.ShowForm(Models.FormsEnum.CHANGE_PASSWORD_FORM);
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e) => Application.Exit();
+        protected override void OnFormClosing(FormClosingEventArgs e) 
+        {
+            base.OnFormClosing(e);
+            if (!NavigationService.isNavigate)
+            {
+                Application.Exit();
+            }
+        }
     }
 }
